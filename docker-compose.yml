@@ -6,18 +6,13 @@ services:
     build: .
     ports:
       - 4761:4761
-    networks:
-      - url-main
+    depends_on:
+      - database
 
   database:
-    networks:
-      - url-main
     image: redis:latest
     ports:
       - 6379:6379
     volumes:
       - $HOME/redis:/data
     restart: always
-
-networks:
-  url-main:
