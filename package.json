@@ -1,25 +1,26 @@
 {
-  "name": "urlshortener",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/silhouetto/urlshortener.git"
-  },
-  "author": "Thomas Ng",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/silhouetto/urlshortener/issues"
-  },
-  "homepage": "https://github.com/silhouetto/urlshortener#readme",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "ejs": "^3.1.5",
-    "express": "^4.17.1",
-    "ioredis": "^4.19.4"
-  }
+	"name": "urlshortener",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node index"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/silhouetto/urlshortener.git"
+	},
+	"author": "Thomas Ng",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/silhouetto/urlshortener/issues"
+	},
+	"homepage": "https://github.com/silhouetto/urlshortener#readme",
+	"dependencies": {
+		"body-parser": "^1.19.0",
+		"ejs": "^3.1.5",
+		"express": "^4.17.1",
+		"ioredis": "^4.19.4"
+	}
 }
