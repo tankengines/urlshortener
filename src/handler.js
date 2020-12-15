@@ -2,7 +2,7 @@ const Redis = require('ioredis');
 
 module.exports = class Handler {
 	constructor() {
-		this.redis = new Redis();
+		this.redis = new Redis({ host: 'redis' });
 	}
 
 	generateKey() {
