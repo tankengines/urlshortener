@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  website:
+  urlshortener:
     container_name: shortener
     build: .
     ports:
@@ -13,6 +13,8 @@ services:
     networks:
       - url-main
     image: redis:latest
+    ports:
+      - 6379:6379
     volumes:
       - $HOME/redis:/data
     restart: always
