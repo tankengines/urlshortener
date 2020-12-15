@@ -5,14 +5,14 @@ services:
     container_name: shortener
     build: .
     ports:
-      - 4761:4761
+      - '4761:4761'
     depends_on:
       - database
 
   database:
     image: redis:latest
     ports:
-      - 6379:6379
+      - '6379:6379'
     volumes:
       - $HOME/redis:/data
     restart: always
