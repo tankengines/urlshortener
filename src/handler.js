@@ -22,12 +22,13 @@ module.exports = class Handler {
 	}
 
 	async setURL(req, res) {
-		if (!this.validURL(req.body.url)) return res.status(400);
+		if (!this.validURL(req.body.url)) return res.status(400).json({ reason: 'Not a link' });
 		const key = this.generateKey();
-		await this.redis.set(`link:${key}`, req.body.url).catch(err => {
-			res.status(500).render('500');
+		const set = await this.redis.set(`link:${key}`, req.body.url).catch(err => {
+			res.status(500);
 			err;
 		});
+		if (!set) return;
 		res.send({
 			key: key,
 		});

@@ -48,6 +48,7 @@
 					document.getElementById('output').value = window.location.hostname + '/' + res.key;
 				},
 				error: function (res) {
+					document.querySelector('#generate').innerHTML = 'Generate';
 					alert('There was an issue shortening the link!');
 				},
 			});
