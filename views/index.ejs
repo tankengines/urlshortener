@@ -39,7 +39,7 @@
 		function getKey() {
 			document.querySelector('#generate').innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>Loading';
 			$.ajax({
-				url: 'http://localhost:4761/new',
+				url: '/new',
 				data: { url: document.getElementById('url').value },
 				type: 'POST',
 				success: function (res) {
