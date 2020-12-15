@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  website:
+    container_name: shortener
+    build: .
+    ports:
+      - 4761:4761
+    networks:
+      - url-main
+
+  database:
+    networks:
+      - url-main
+    image: redis:latest
+    volumes:
+      - $HOME/redis:/data
+    restart: always
+
+networks:
+  url-main:
