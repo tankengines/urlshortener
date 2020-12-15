@@ -60,6 +60,18 @@ button {
 	font-size: 16px;
 	border-radius: 8px;
 	min-width: 8rem;
+	transition-duration: 0.4s;
+}
+
+button:hover {
+	background-color: white;
+	color: #f37373;
+}
+
+button:active {
+	background-color: #f37373;
+	color: white;
+	transform: translateY(4px);
 }
 
 input {

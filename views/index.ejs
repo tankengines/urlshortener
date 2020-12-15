@@ -37,6 +37,7 @@
 		}
 
 		function getKey() {
+			if (!document.getElementById('url').value.length) return;
 			document.querySelector('#generate').innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>Loading';
 			$.ajax({
 				url: '/new',
