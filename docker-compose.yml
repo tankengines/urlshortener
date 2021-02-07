@@ -16,7 +16,8 @@ services:
       - '6379:6379'
     command: ['redis-server', '--appendonly', 'yes']
     volumes:
-      - redis-data:/data
+      - redis-data/data:/data
+      - redis-data/redis.conf:/redis.conf
     restart: always
 
 volumes:
