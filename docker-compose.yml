@@ -2,6 +2,7 @@ version: '3'
 
 services:
   urlshortener:
+    env_file: .env
     container_name: shortener
     build: .
     ports:
@@ -16,8 +17,8 @@ services:
       - '6379:6379'
     command: ['redis-server', '--appendonly', 'yes']
     volumes:
-      - redis-data/data:/data
-      - redis-data/redis.conf:/redis.conf
+      - redis-data:/data
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
     restart: always
 
 volumes:

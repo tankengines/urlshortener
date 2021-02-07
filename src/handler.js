@@ -1,8 +1,9 @@
 const Redis = require('ioredis');
+require('dotenv').config();
 
 module.exports = class Handler {
 	constructor() {
-		this.redis = new Redis({ host: 'redis' });
+		this.redis = new Redis({ host: 'redis', password: process.env.REDIS_PASSWORD });
 	}
 
 	generateKey() {
