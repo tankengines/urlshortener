@@ -15,12 +15,11 @@ services:
     container_name: redis
     ports:
       - '6379:6379'
-    command: ['redis-server', '--appendonly', 'yes']
+    command: ['redis-server', '/usr/local/etc/redis/redis.conf']
     volumes:
       - redis-data:/data
-      - redis-conf:/usr/local/etc/redis/redis.conf
+      - ~/redis-conf/redis.conf:/usr/local/etc/redis/redis.conf
     restart: always
 
 volumes:
   redis-data:
-  redis-conf:
