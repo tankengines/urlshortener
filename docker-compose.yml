@@ -18,8 +18,9 @@ services:
     command: ['redis-server', '--appendonly', 'yes']
     volumes:
       - redis-data:/data
-      - redis-data/conf:/usr/local/etc/redis/redis.conf
+      - redis-conf:/usr/local/etc/redis/redis.conf
     restart: always
 
 volumes:
   redis-data:
+  redis-conf:
