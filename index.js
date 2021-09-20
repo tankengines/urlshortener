@@ -14,16 +14,16 @@ router.get('/', (req, res) => {
 	res.render('index');
 });
 
+router.post('/new', async (req, res) => {
+	handler.setURL(req, res);
+});
+
 router.get('/:key', (req, res) => {
 	handler.getURL(req, res);
 });
 
 router.head('/:key', async (req, res) => {
 	handler.getURL(req, res);
-});
-
-router.post('/new', async (req, res) => {
-	handler.setURL(req, res);
 });
 
 router.use((_, res) => {
