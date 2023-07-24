@@ -30,9 +30,7 @@ module.exports = class Handler {
 			err;
 		});
 		if (!set) return;
-		res.send({
-			key: key,
-		});
+		res.send(`https://${req.hostname}/${key}`);
 		console.log(`Successfully created key ${key}`);
 	}
 

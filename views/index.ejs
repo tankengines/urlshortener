@@ -45,7 +45,7 @@
 				type: 'POST',
 				success: function (res) {
 					document.querySelector('#generate').innerHTML = 'Generate';
-					document.getElementById('output').value = 'https://' + window.location.hostname + '/' + res.key;
+					document.getElementById('output').value = res;
 				},
 				error: function (res) {
 					document.querySelector('#generate').innerHTML = 'Generate';
