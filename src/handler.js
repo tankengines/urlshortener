@@ -1,5 +1,5 @@
 const Redis = require('ioredis');
-require('dotenv').config();
+const path = require('path');
 
 module.exports = class Handler {
 	constructor() {
@@ -17,7 +17,7 @@ module.exports = class Handler {
 
 	async getURL(req, res) {
 		const url = await this.redis.get(`link:${req.params.key}`);
-		if (!url) return res.status(404).render('404');
+		if (!url) return res.status(404).sendFile(path.join(__dirname, '/public/404.html'));
 		console.log(`Fetched url for key ${req.params.key}`);
 		res.redirect(url);
 	}
@@ -30,8 +30,8 @@ module.exports = class Handler {
 			err;
 		});
 		if (!set) return;
-		res.send(`https://${req.hostname}/${key}`);
-		console.log(`Successfully created key ${key}`);
+		res.send(key);
+		console.log(`Successfully created key ${key} for url ${req.body.url}`);
 	}
 
 	validURL(str) {
@@ -42,6 +42,6 @@ module.exports = class Handler {
 			'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
 			'(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
 			'(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-		return !!pattern.test(str);
+		return pattern.test(str);
 	}
 };

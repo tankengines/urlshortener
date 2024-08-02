@@ -2,10 +2,10 @@
 	"name": "urlshortener",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "src/index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node index"
+		"start": "node --env-file=.env src/index"
 	},
 	"repository": {
 		"type": "git",
@@ -18,9 +18,6 @@
 	},
 	"homepage": "https://github.com/silhouetto/urlshortener#readme",
 	"dependencies": {
-		"body-parser": "^1.19.0",
-		"dotenv": "^8.2.0",
-		"ejs": "^3.1.5",
 		"express": "^4.17.1",
 		"ioredis": "^4.19.4"
 	}

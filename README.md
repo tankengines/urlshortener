@@ -1,27 +1,38 @@
 # URL Shortener
 
-This website is a simple URL shortener, utilizing node.js and Redis. A live example can be found on <https://go.itsthomas.tech>.
+This website is a simple URL shortener, utilizing node.js and Redis. A live example can be found on [go.thomasng.me](https://go.thomasng.me/).
 
 # Installation
 
 1. Clone or download the repository.
-2. `npm install`
-3. `npm start`
+1. Edit `.env` by cloning `.env.example`, where:
+	- `PORT` is the port that the website will run on
+ 	- `REDIS_PASSWORD` is the password to your redis server
+1. `npm install`
+1. `npm start`
 
 # Docker
 
 The website can also be used in conjunction with Docker.
 
-## Build Image
+## With redis via Docker Compose
+
+```
+docker compose up
+```
+
+## As a standalone container
+
+### Building the image
 
 ```
 docker build . -t urlshortener
 ```
 
-## Run Container
+### Run container
 
 ```
-docker run -d -p 4761:4761 urlshortener
+docker run -d -p PORT:PORT urlshortener
 ```
 
 # Disclaimer

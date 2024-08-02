@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>URL Shortener</title>
+	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Trispace&display=swap" />
+	<noscript>This website needs Javascript enabled to run</noscript>
+</head>
+<div class="index">
+	<header>URL Shortener</header>
+	<p>Paste in a link here, and the website will generate a shortened version of the link.</p>
+	<br />
+	<div class="form">
+		<input id="url" class="form-url" placeholder="Paste a link here" />
+		<button id="generate" class="btn" onclick="getKey()">Generate</button>
+	</div>
+	<br />
+	<br />
+	<div class="output">
+		<input id="output" class="output-url" readonly="true" type="text"
+			placeholder="The shortened link will output here" />
+		<button id="copy" class="btn" onclick="copy()">Copy</button>
+	</div>
+</div>
+<script>
+	function copy() {
+		var toCopy = document.getElementById("output");
+		toCopy.select();
+		// 99999 as a dummy value to select the entire text field; the server"s response shouldn't be longer than it anyway, otherwise configuration is wrong
+		toCopy.setSelectionRange(0, 99999);
+		document.execCommand("copy");
+		document.querySelector("#copy").innerHTML = "Copied!";
+
+		// reset text in button after 5 seconds
+		setTimeout(function () {
+			document.querySelector("#copy").innerHTML = "Copy";
+		}, 5000);
+	}
+
+	function getKey() {
+		if (!document.getElementById("url").value.length) return;
+		document.querySelector("#generate").innerHTML = '<span class="loader"></span> Loading';
+		var xhr = new XMLHttpRequest();
+
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState !== xhr.DONE) return;
+
+			if (xhr.status === 200) {
+				document.getElementById("output").value = window.location.protocol + "//" + window.location.hostname + "/" + xhr.responseText;
+			} else if (xhr.status === 400) {
+				alert("Please enter a valid URL");
+			} else if (xhr.status === 500) {
+				alert("There was a problem on the server-side!");
+			} else {
+				console.error("Error code " + xhr.status + " occurred while generating link.");
+				alert("An unknown error occurred, and has been logged to the console. Contact the host with the error code.");
+			}
+
+			document.querySelector("#generate").innerHTML = "Generate";
+		};
+
+		xhr.open("POST", "/new");
+		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+		// Remove whitespace from the URL
+		var sanitisedInput = document.getElementById("url").value.replace(/^\s+|\s+$/gm, "");
+		xhr.send(JSON.stringify({
+			"url": sanitisedInput
+		}));
+	}
+</script>
+
+</html>

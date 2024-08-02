@@ -1,12 +1,10 @@
-version: '3'
-
 services:
   urlshortener:
     env_file: .env
     container_name: shortener
     build: .
     ports:
-      - '4761:4761'
+      - '${PORT}:${PORT}'
     depends_on:
       - redis
 
@@ -15,7 +13,9 @@ services:
     container_name: redis
     ports:
       - '6379:6379'
-    command: ['redis-server', '/usr/local/etc/redis/redis.conf']
+    command: ['redis-server', '/usr/local/etc/redis/redis.conf', '--requirepass ${REDIS_PASSWORD}']
+    environment:
+      - PASSWORD=${REDIS_PASSWORD}
     volumes:
       - redis-data:/data
       - ~/redis-conf/redis.conf:/usr/local/etc/redis/redis.conf
