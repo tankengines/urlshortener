@@ -8,6 +8,7 @@ This website is a simple URL shortener, utilizing node.js and Redis. A live exam
 1. Edit `.env` by cloning `.env.example`, where:
 	- `PORT` is the port that the website will run on
  	- `REDIS_PASSWORD` is the password to your redis server
+	- `KEY_LENGTH` is the length of the key for each link (example.com/\<KEY>)
 1. `npm install`
 1. `npm start`
 

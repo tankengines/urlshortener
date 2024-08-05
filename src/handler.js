@@ -6,12 +6,28 @@ module.exports = class Handler {
 		this.redis = new Redis({ host: 'redis', password: process.env.REDIS_PASSWORD });
 	}
 
-	generateKey() {
-		let result = '';
+	async generateKey() {
 		const characters = 'abcdefghijklmnopqrstuvwxyz';
-		for (let i = 0; i < 6; i++) {
-			result += characters.charAt(Math.floor(Math.random() * characters.length));
+		const keyLength = process.env.KEY_LENGTH || 6;
+		let result;
+
+		// Hash collision checking, so we don't overwrite previous URLs
+		let collision = true;
+		while (collision) {
+			result = '';
+
+			// 6 characters provide 165765600 permutations for just lowercase chars
+			// In practice, if keys are exhausted, then just change key length
+			for (let i = 0; i < keyLength; i++) {
+				result += characters.charAt(Math.floor(Math.random() * characters.length));
+			}
+
+			const record = await this.redis.get(`link:${result}`);
+			if (record === null) {
+				collision = false;
+			}
 		}
+
 		return result;
 	}
 
@@ -24,7 +40,7 @@ module.exports = class Handler {
 
 	async setURL(req, res) {
 		if (!this.validURL(req.body.url)) return res.status(400).json({ reason: 'Not a link' });
-		const key = this.generateKey();
+		const key = await this.generateKey();
 		const set = await this.redis.set(`link:${key}`, req.body.url).catch(err => {
 			res.status(500);
 			err;
