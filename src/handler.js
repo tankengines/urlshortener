@@ -1,9 +1,11 @@
 const Redis = require('ioredis');
 const path = require('path');
+const logger = require('./logger.js');
 
 module.exports = class Handler {
 	constructor() {
 		this.redis = new Redis({ host: 'redis', password: process.env.REDIS_PASSWORD });
+		this.redis.on('error', (error) => logger.log(error, 'error'));
 	}
 
 	async generateKey() {
@@ -32,22 +34,25 @@ module.exports = class Handler {
 	}
 
 	async getURL(req, res) {
-		const url = await this.redis.get(`link:${req.params.key}`);
+		const url = await this.redis.get(`link:${req.params.key}`).catch((err) => {
+			res.status(500);
+			logger.log(`Error fetching key ${req.params.key}: ${err}`, 'error');
+		});
 		if (!url) return res.status(404).sendFile(path.join(__dirname, '/public/404.html'));
-		console.log(`Fetched url for key ${req.params.key}`);
+		logger.log(`Fetched url for key ${req.params.key}`, 'info');
 		res.redirect(url);
 	}
 
 	async setURL(req, res) {
 		if (!this.validURL(req.body.url)) return res.status(400).json({ reason: 'Not a link' });
 		const key = await this.generateKey();
-		const set = await this.redis.set(`link:${key}`, req.body.url).catch(err => {
+		const set = await this.redis.set(`link:${key}`, req.body.url).catch((err) => {
 			res.status(500);
-			err;
+			logger.log(`Error creating key ${key} for url ${req.body.url}: ${err}`, 'error');
 		});
 		if (!set) return;
 		res.send(key);
-		console.log(`Successfully created key ${key} for url ${req.body.url}`);
+		logger.log(`Successfully created key ${key} for url ${req.body.url}`, 'info');
 	}
 
 	validURL(str) {

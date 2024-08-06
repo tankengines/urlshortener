@@ -5,6 +5,7 @@ const router = express.Router();
 
 const Handler = require('./handler.js');
 const handler = new Handler();
+const logger = require('./logger.js');
 
 // JSON-ify body before anything is handled
 app.use(express.json())
@@ -14,6 +15,10 @@ app.use('/', express.static(path.join(__dirname, '/public/')));
 
 // app.use(router) has to go AFTER the static directory;
 // Express app middleware takes precedence in the order that they are called
+app.use((req, _, next) => {
+	logger.log(`${req.method} ${req.path}`, 'info');
+	next();
+});
 app.use(router);
 
 router.get('/', (_, res) => {
@@ -33,4 +38,7 @@ router.use((_, res) => {
 	res.status(404).sendFile(path.join(__dirname + '/public/404.html'));
 });
 
-app.listen(process.env.PORT ?? 4761, () => console.log(`Listening on port ${process.env.PORT ?? 4761}`));
+process.on('uncaughtException', (error) => logger.log(error, 'error'));
+process.on('SIGABRT', (error) => logger.log(error, 'fatal'));
+
+app.listen(process.env.PORT ?? 4761, () => logger.log(`Listening on port ${process.env.PORT ?? 4761}`, 'info'));
