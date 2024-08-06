@@ -10,7 +10,7 @@ exports.log = (content, type = 'log') => {
 			break;
 
 		case 'error':
-			return console.log(`[${timestamp}]: [\x1b[31m${type.toUpperCase()}\x1b[0m] ${content}`);
+			return console.error(`[${timestamp}]: [\x1b[31m${type.toUpperCase()}\x1b[0m] ${content}`);
 			break;
 
 		case 'debug':
@@ -18,7 +18,7 @@ exports.log = (content, type = 'log') => {
 			break;
 
 		case 'fatal':
-			return console.log(`[${timestamp}]: [\x1b[31m${type.toUpperCase()}\x1b[0m] ${content}`);
+			return console.error(`[${timestamp}]: [\x1b[31m${type.toUpperCase()}\x1b[0m] ${content}`);
 			break;
 
 		case 'info':
